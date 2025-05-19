@@ -1,6 +1,7 @@
-package com.edutech.msvc.curso.exceptions;
+package com.edutech.msvc.profesor.exceptions;
 
-import com.edutech.msvc.curso.dtos.ErrorDTO;
+import com.edutech.msvc.profesor.dtos.ErrorDTO;
+import com.edutech.msvc.profesor.models.entities.Profesor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -43,8 +44,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.createErrorDto(HttpStatus.BAD_REQUEST.value(), new Date(), errorMap));
     }
 
-    @ExceptionHandler(CursoException.class)
-    public ResponseEntity<ErrorDTO> handleCursoException(CursoException exception){
+    @ExceptionHandler(ProfesorException.class)
+    public ResponseEntity<ErrorDTO> handleCursoException(ProfesorException exception){
         if (exception.getMessage().contains("no se encuentra en la base de datos")){
             //Esto no sirve para cuando no existe el curso
             Map<String, String> errorMap = Collections.singletonMap("Curso no encontrado", exception.getMessage());
@@ -58,4 +59,3 @@ public class GlobalExceptionHandler {
     }
 
 }
-
