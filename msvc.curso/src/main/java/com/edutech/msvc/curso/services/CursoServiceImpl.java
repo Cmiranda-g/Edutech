@@ -23,11 +23,17 @@ public class CursoServiceImpl implements CursoService{
         return this.cursosRepository.findById(id).orElseThrow(()-> new CursoException("El curso con el id: " + id+" no se encuentra en la base de datos"));
     }
 
+
     @Override
     public Curso save(Curso curso){
         if(this.cursosRepository.findByNombre(curso.getNombre()).isPresent()){
             throw new CursoException("El curso con el nombre: " + curso.getNombre() + " ya existe en la base de datos");
         }
         return this.cursosRepository.save(curso);
+    }
+
+    @Override
+    public List<Curso> findByIdProfesor(Long idProfesor) {
+        return this.cursosRepository.findByIdProfesor(idProfesor);
     }
 }

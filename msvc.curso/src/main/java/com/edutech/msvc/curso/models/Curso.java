@@ -1,6 +1,7 @@
 package com.edutech.msvc.curso.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -18,4 +19,8 @@ public class Curso {
     @Column(nullable = false, unique = true)
     @NotEmpty(message = "El nombre del curso no puede ser vacio")
     private String nombre;
+
+    @Column(nullable = false)
+    @NotNull(message = "El id del profesor no puede ser vacio")
+    private Long idProfesor;
 }

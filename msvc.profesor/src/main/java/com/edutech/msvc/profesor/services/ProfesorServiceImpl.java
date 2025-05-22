@@ -39,5 +39,17 @@ public class ProfesorServiceImpl implements ProfesorService{
         return profesorRepository.save(profesor);
     }
 
+    @Override
+    public CursoProfesorDTO findCursoById(Long idProfesor){
+        //agregamos esto en ecaso de que no exista el medico que estamos buscando la app pueda realizar la excepcion
+        Profesor profesor = this.findById(idProfesor);
+        List<Curso> cursos = this.cursoClientRest.findByIdProfesor(idProfesor);
+
+        if(!cursos.isEmpty()){
+          return cursos.stream().map(curso -> )  //falta
+        }
+        return null;
+    }
+
     // FALTA
 }
