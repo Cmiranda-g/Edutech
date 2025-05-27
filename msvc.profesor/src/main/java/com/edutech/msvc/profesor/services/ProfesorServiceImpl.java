@@ -8,6 +8,9 @@ import com.edutech.msvc.profesor.models.entities.Profesor;
 import com.edutech.msvc.profesor.repositories.ProfesorRepository;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,10 +49,20 @@ public class ProfesorServiceImpl implements ProfesorService{
         List<Curso> cursos = this.cursoClientRest.findByIdProfesor(idProfesor);
 
         if(!cursos.isEmpty()){
-          return cursos.stream().map(curso -> )  //falta
-        }
-        return null;
-    }
+          return (CursoProfesorDTO) cursos.stream().map(curso -> {
+              try {
+                  curso = (Curso) this.cursoClientRest.findByIdProfesor(profesor.getIdProfesor());
+              }catch (FeignException ex){
+                  throw new ProfesorException("Al momento de generar el listado de profesores de cursos, se encontro que el profesor con id" + profesor.getIdProfesor()+"no  existe");
+              }
+              CursoProfesorDTO dto = new CursoProfesorDTO();
+              dto.setNombreCompleto(profesor.getNombreCompleto());
+              dto.setRunProfesor(profesor.getRunProfesor());
+              dto.setCursos(cursos);
 
-    // FALTA
+              return dto;
+          }).toList();
+        }
+        return (CursoProfesorDTO) List.of();
+    }
 }
